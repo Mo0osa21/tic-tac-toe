@@ -1,14 +1,16 @@
 body {
   background-color: gainsboro;
-  /* Use a system font, if none are available use an available sans-sarif */
   font-family: system-ui, sans-serif;
   margin: 0;
+  text-align: center;
 }
 
 .board {
   display: flex;
   flex-wrap: wrap;
   width: 325px;
+  text-align: center;
+  margin: 20px auto;
 }
 
 .sqr {
@@ -16,5 +18,14 @@ body {
   aspect-ratio: 1/1;
   border: 3px solid black;
   font-size: 64px;
+  text-align: center;
+}
+
+#reset {
+  margin: 0px;
+  margin-right: 20px;
+  width: 15%;
+  border: 3px solid black;
+  font-size: 24px;
   text-align: center;
 }

@@ -1,8 +1,8 @@
 /*-------------------------------- Constants --------------------------------*/
-let board = ['X', '', '', '', 'O', '', '', '', '']
-let turn
-let winner
-let tie
+let board = ['', '', '', '', '', '', '', '', '']
+let turn = 'X'
+let winner = false
+let tie = false
 /*---------------------------- Variables (state) ----------------------------*/
 const squareEls = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 const messageEl = document.querySelector('#message')
@@ -18,6 +18,7 @@ const winningCombos = [
 ]
 
 /*------------------------ Cached Element References ------------------------*/
+const resetBtnEl = document.querySelector('#reset')
 
 /*-------------------------------- Functions --------------------------------*/
 const init = () => {
@@ -25,7 +26,8 @@ const init = () => {
   turn = 'X'
   winner = false
   tie = false
-  // render()
+  render()
+  messageEl.textContent = ''
 }
 const render = () => {
   updateBoard()
@@ -47,4 +49,67 @@ const updateMessage = () => {
     messageEl.textContent = `Congrats ${turn} you won!!!`
   }
 }
+
+const placePiece = (index) => {
+  board[index] = turn
+}
+
+checkForWinner = () => {
+  winningCombos.forEach((comp) => {
+    if (
+      board[comp[0]] === board[comp[1]] &&
+      board[comp[1]] === board[comp[2]] &&
+      board[comp[0]] !== ''
+    ) {
+      winner = true
+    }
+  })
+}
+
+const checkForTie = () => {
+  let ti = false
+  board.forEach((val) => {
+    if (val !== '') {
+      ti = true
+    }
+    if (ti === false && winner === false) {
+      tie = true
+    }
+  })
+}
+
+const switchPlayerTurn = () => {
+  if (winner === true) {
+    return
+  }
+  if (turn === 'X') {
+    turn = 'O'
+  } else {
+    turn = 'X'
+  }
+}
+
+const handelClick = (event) => {
+  let squareIndex = event.target.id
+  if (
+    board[squareIndex] === 'X' ||
+    board[squareIndex] === 'O' ||
+    winner === true
+  ) {
+    return
+  }
+  placePiece(squareIndex[6])
+  updateBoard()
+  checkForWinner()
+  checkForTie()
+  switchPlayerTurn()
+  updateMessage()
+}
 /*----------------------------- Event Listeners -----------------------------*/
+squareEls.forEach((square) => {
+  document
+    .querySelector(`#square${square}`)
+    .addEventListener('click', handelClick)
+})
+
+resetBtnEl.addEventListener('click', init)
