@@ -67,15 +67,19 @@ checkForWinner = () => {
 }
 
 const checkForTie = () => {
-  let ti = false
+  let ti = true
+
   board.forEach((val) => {
-    if (val !== '') {
-      ti = true
-    }
-    if (ti === false && winner === false) {
-      tie = true
+    if (val === '') {
+      ti = false
     }
   })
+
+  if (ti === true && winner === false) {
+    tie = true
+  } else {
+    tie = false
+  }
 }
 
 const switchPlayerTurn = () => {
